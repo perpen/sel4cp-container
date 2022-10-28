@@ -1,0 +1,31 @@
+diff --git a/dev_build.py b/dev_build.py
+index 976cefa..f0eb6c0 100644
+--- a/dev_build.py
++++ b/dev_build.py
+@@ -3,14 +3,14 @@
+ This is designed to make it easy to build and run examples during development.
+ """
+ from argparse import ArgumentParser
+-from os import environ
++from os import environ, makedirs
+ from pathlib import Path
+ from shutil import rmtree
+ from subprocess import run
+ from sys import executable
+
+ CWD = Path.cwd()
+-BUILD_DIR = CWD / "tmp_build"
++BUILD_DIR = CWD / "tmp/build"
+
+ sel4cp_config = "debug"
+
+@@ -73,7 +73,8 @@ def main():
+         rmtree(BUILD_DIR)
+
+     if not BUILD_DIR.exists():
+-        BUILD_DIR.mkdir()
++        #BUILD_DIR.mkdir()
++        makedirs(BUILD_DIR)
+
+     make_env = environ.copy()
+     make_env["BUILD_DIR"] = str(BUILD_DIR.absolute())

@@ -1,0 +1,14 @@
+#!/bin/bash
+set -ueo pipefail
+
+IMG=sel4cp-container
+
+build() {
+    docker build -t "$IMG" .
+}
+
+shell() {
+    docker run --rm -ti -v $(pwd)/tmp:/sel4cp/tmp "$IMG" bash
+}
+
+"$@"
