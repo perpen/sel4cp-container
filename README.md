@@ -1,5 +1,4 @@
-Tested from container with:
+Example - creates artifacts under `./tmp/build`:
 ```
-cd /sel4cp
-/pyenv/bin/python dev_build.py --example hello --board zcu102 --rebuild
+./dev build --example hello --board zcu102
 ```

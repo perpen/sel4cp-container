@@ -3,12 +3,17 @@ set -ueo pipefail
 
 IMG=sel4cp-container
 
-build() {
-    docker build -t "$IMG" .
+_docker-build() {
+    docker buildx build -t "$IMG" .
 }
 
 shell() {
-    docker run --rm -ti -v $(pwd)/tmp:/sel4cp/tmp "$IMG" bash
+    docker run --rm -ti -v "$(pwd)/tmp:/sel4cp/tmp" --entrypoint bash "$IMG"
 }
 
+build() {
+    docker run --rm -ti -v "$(pwd)/tmp:/sel4cp/tmp" "$IMG" "$@"
+}
+
+_docker-build
 "$@"
