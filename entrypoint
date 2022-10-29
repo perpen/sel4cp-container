@@ -1,0 +1,20 @@
+#!/bin/bash
+set -ueo pipefail
+
+dev-build() {
+    cd /sel4cp
+    /pyenv/bin/python dev_build.py "$@"
+}
+
+qemu() {
+    qemu-system-aarch64 \
+        -m 4G  \
+        -M arm-generic-fdt \
+        -nographic \
+        -hw-dtb /qemu-devicetrees/LATEST/SINGLE_ARCH/zcu102-arm.dtb \
+        -device loader,file=/sel4cp/tmp/build/loader.img,addr=0x40000000,cpu-num=0 \
+        -device loader,addr=0xfd1a0104,data=0x0000000e,data-len=4 \
+        -serial mon:stdio
+}
+
+"$@"

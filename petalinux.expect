@@ -1,0 +1,19 @@
+#!/usr/bin/expect
+set timeout -1
+spawn bash /tmp/petalinux-v2022.2-10141622-installer.run -d /petalinux
+expect "Press Enter to display the license agreements"
+send "\r"
+expect "/Petalinux_EULA.txt"
+sleep .1
+send "q"
+expect "\\\[y/N\\\] > "
+sleep .1
+send "y\r"
+expect "/Third_Party_Software_End_User_License_Agreement.txt"
+send "q"
+expect "\\\[y/N\\\] > "
+sleep .1
+send "y\r"
+expect "otherwise:"
+# sleep .1
+# send "y\r"

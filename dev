@@ -1,18 +1,18 @@
 #!/bin/bash
 set -ueo pipefail
 
-IMG=sel4cp-container
+SEL4CP_TAG=sel4cp-container
 
 _docker-build() {
-    docker buildx build -t "$IMG" .
+    docker buildx build -t "$SEL4CP_TAG" -f Dockerfile .
 }
 
 shell() {
-    docker run --rm -ti -v "$(pwd)/tmp:/sel4cp/tmp" --entrypoint bash "$IMG"
+    docker run --rm -ti -v "$(pwd)/tmp:/sel4cp/tmp" --entrypoint bash "$SEL4CP_TAG"
 }
 
-build() {
-    docker run --rm -ti -v "$(pwd)/tmp:/sel4cp/tmp" "$IMG" "$@"
+entrypoint() {
+    docker run --rm -ti -v "$(pwd)/tmp:/sel4cp/tmp" "$SEL4CP_TAG" "$@"
 }
 
 _docker-build
