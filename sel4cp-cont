@@ -1,0 +1,31 @@
+#!/bin/bash
+set -ueo pipefail
+
+SEL4CP_TAG=sel4cp-container
+
+vol_opts="-v $(pwd)/tmp:/sel4cp/tmp -v $(pwd)/example:/sel4cp/example"
+
+docker-build() {
+    cd "$(dirname $(readlink -f $0))"
+    docker buildx build -t "$SEL4CP_TAG" -f Dockerfile .
+}
+
+shell() {
+    mkdir -p example tmp
+    docker run --rm -ti $vol_opts --entrypoint bash "$SEL4CP_TAG"
+}
+
+_entrypoint() {
+    mkdir -p example tmp
+    docker run --rm -ti $vol_opts "$SEL4CP_TAG" "$@"
+}
+
+dev-build() {
+    _entrypoint dev-build "$@"
+}
+
+qemu() {
+    _entrypoint qemu "$@"
+}
+
+"$@"
